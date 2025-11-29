@@ -6,12 +6,15 @@ export default defineConfig(({ mode }) => {
   // Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
   const env = loadEnv(mode, (process as any).cwd(), '');
 
+  // CRITICAL FIX: Look for yyz_API_KEY specifically as configured in Vercel
+  const apiKey = env.yyz_API_KEY || env.API_KEY;
+
   return {
     plugins: [react()],
     define: {
       // This ensures 'process.env.API_KEY' in your code is replaced with the actual string value during build
-      'process.env.API_KEY': JSON.stringify(env.API_KEY),
-      // Prevents "process is not defined" errors for other access patterns, but be careful not to overwrite NODE_ENV
+      'process.env.API_KEY': JSON.stringify(apiKey),
+      // Prevents "process is not defined" errors for other access patterns
       'process.env': {} 
     },
     build: {
