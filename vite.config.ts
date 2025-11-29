@@ -11,8 +11,19 @@ export default defineConfig(({ mode }) => {
     define: {
       // This ensures 'process.env.API_KEY' in your code is replaced with the actual string value during build
       'process.env.API_KEY': JSON.stringify(env.API_KEY),
-      // Prevents "process is not defined" errors for other access patterns
-      'process.env': {}
+      // Prevents "process is not defined" errors for other access patterns, but be careful not to overwrite NODE_ENV
+      'process.env': {} 
+    },
+    build: {
+      chunkSizeWarningLimit: 1000, // Increase warning limit to 1000kB
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            // Split large libraries into separate chunks to avoid single massive JS file
+            vendor: ['react', 'react-dom', 'recharts', 'lucide-react', '@google/genai'],
+          },
+        },
+      },
     },
   };
 });

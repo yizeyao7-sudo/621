@@ -7,6 +7,34 @@ interface PracticeViewProps {
   questions: Question[];
 }
 
+interface MindMapNodeProps {
+  node: any;
+  level?: number;
+}
+
+const MindMapNode: React.FC<MindMapNodeProps> = ({ node, level = 0 }) => {
+    if (!node) return null;
+    return (
+        <div style={{ marginLeft: `${level * 1}rem` }} className="my-2">
+            <div className={`
+              inline-block px-3 py-1 rounded-lg border 
+              ${level === 0 ? 'bg-tsinghua-purple text-white font-bold text-lg' : 
+                level === 1 ? 'bg-purple-100 text-purple-900 font-semibold border-purple-200' : 
+                'bg-white text-gray-600 text-sm border-gray-200'}
+            `}>
+                {node.label || node.topic}
+            </div>
+            {node.children && (
+                <div className="pl-4 border-l-2 border-gray-100 ml-4 mt-2">
+                    {node.children.map((child: any, idx: number) => (
+                        <MindMapNode key={idx} node={child} level={level + 1} />
+                    ))}
+                </div>
+            )}
+        </div>
+    )
+}
+
 const PracticeView: React.FC<PracticeViewProps> = ({ questions }) => {
   const [mindMapData, setMindMapData] = useState<any>(null);
   const [loadingMap, setLoadingMap] = useState(false);
@@ -18,30 +46,6 @@ const PracticeView: React.FC<PracticeViewProps> = ({ questions }) => {
       const data = await generateMindMap(mapTopic);
       setMindMapData(data);
       setLoadingMap(false);
-  }
-
-  // Recursive component to render mind map tree
-  const MindMapNode = ({ node, level = 0 }: { node: any, level?: number }) => {
-      if (!node) return null;
-      return (
-          <div className={`ml-${level * 4} my-2`}>
-              <div className={`
-                inline-block px-3 py-1 rounded-lg border 
-                ${level === 0 ? 'bg-tsinghua-purple text-white font-bold text-lg' : 
-                  level === 1 ? 'bg-purple-100 text-purple-900 font-semibold border-purple-200' : 
-                  'bg-white text-gray-600 text-sm border-gray-200'}
-              `}>
-                  {node.label || node.topic}
-              </div>
-              {node.children && (
-                  <div className="pl-4 border-l-2 border-gray-100 ml-4 mt-2">
-                      {node.children.map((child: any, idx: number) => (
-                          <MindMapNode key={idx} node={child} level={level + 1} />
-                      ))}
-                  </div>
-              )}
-          </div>
-      )
   }
 
   return (

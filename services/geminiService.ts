@@ -1,7 +1,8 @@
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { GradingReport, PersonaType, Question } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// MOVED INITIALIZATION INSIDE FUNCTIONS to prevent top-level crashes
+// const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 const REPORT_SCHEMA: Schema = {
   type: Type.OBJECT,
@@ -152,6 +153,8 @@ export const gradeSubmission = async (
   persona: PersonaType,
   topic: string
 ): Promise<GradingReport> => {
+  // Initialize AI client here to avoid top-level process.env access issues
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   const modelId = "gemini-2.5-flash"; // Excellent for text + vision analysis
 
   const personaInstruction = {
@@ -231,6 +234,8 @@ export const gradeSubmission = async (
 
 
 export const generateMindMap = async (topic: string) => {
+   // Initialize AI client here to avoid top-level process.env access issues
+   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
    const systemInstruction = `
     Generate a hierarchical mind map structure for a Tsinghua 621 Art History essay on the topic: "${topic}".
     The structure should cover: Definition, Background, Characteristics/Style, Key Artists/Works, Impact/Influence, and Conclusion.
