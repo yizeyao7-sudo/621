@@ -7,7 +7,7 @@ import { GradingReport, PersonaType, Question } from "../types";
 const REPORT_SCHEMA: Schema = {
   type: Type.OBJECT,
   properties: {
-    overallScore: { type: Type.INTEGER, description: "Score out of 150" },
+    overallScore: { type: Type.INTEGER, description: "Score out of 30" },
     summary: { type: Type.STRING, description: "Overall commentary based on selected persona tone" },
     knowledgePoints: {
       type: Type.ARRAY,
@@ -174,8 +174,9 @@ export const gradeSubmission = async (
     4. Assess academic language usage.
     5. Compare with a hypothetical "Excellent Model Answer" standards.
     6. Provide a "One-click Optimization" rewrite for the weakest section.
+    7. Give an Overall Score out of 30 points.
     
-    7. GENERATE WRITING TEMPLATES specifically for this topic:
+    8. GENERATE WRITING TEMPLATES specifically for this topic:
        - **Brainstorming Templates** (Idea Generation): 2 distinct thinking frameworks for when students are stuck.
          - technique: A clear name for the mental model (e.g., "Internal vs External Factors", "Inheritance & Innovation Lens").
          - template: A step-by-step guide on HOW to think (e.g., "Step 1: Analyze the social environment... Step 2: Connect to the artist's personal style..."). DO NOT just give a fill-in-the-blank sentence. Give a process.
@@ -184,7 +185,7 @@ export const gradeSubmission = async (
        - **Conclusion Templates**: 2 Elevation Strategies. How to summarize and elevate to cultural spirit or modern value.
        - For Intro/Conclusion, provide a "Template" pattern and a specific "Example" applied to this topic.
 
-    8. GENERATE A FULL MODEL ESSAY (范文) for this topic.
+    9. GENERATE A FULL MODEL ESSAY (范文) for this topic.
        - CRITICAL: Determine the question type based on the topic complexity.
        - Type 1: "Noun Explanation" (名词解释). Target ~150-250 words. Structure: Definition -> Historical Context -> Artistic Characteristics -> Impact/Status.
        - Type 2: "Short Answer" (简答题). Target ~400-600 words. REQUIREMENT: Use numbered subheadings (e.g., "1. Point One", "2. Point Two") to clearly organize arguments.

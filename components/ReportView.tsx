@@ -10,7 +10,10 @@ interface ReportViewProps {
 
 const ReportView: React.FC<ReportViewProps> = ({ report, onOptimizeClick }) => {
   const [copied, setCopied] = useState(false);
-  const scoreColor = report.overallScore >= 120 ? 'text-green-600' : report.overallScore >= 90 ? 'text-yellow-600' : 'text-red-600';
+  
+  // Adjusted thresholds for max score of 30
+  // >= 24 (80%) is green, >= 18 (60%) is yellow, else red
+  const scoreColor = report.overallScore >= 24 ? 'text-green-600' : report.overallScore >= 18 ? 'text-yellow-600' : 'text-red-600';
 
   const handleCopy = () => {
     if (report.modelEssay) {
@@ -49,8 +52,8 @@ const ReportView: React.FC<ReportViewProps> = ({ report, onOptimizeClick }) => {
           </div>
         </div>
         <div className="mt-6 md:mt-0 md:ml-8 text-center min-w-[150px]">
-          <div className="text-sm text-gray-500 uppercase tracking-wide">总得分</div>
-          <div className={`text-6xl font-black ${scoreColor}`}>{report.overallScore}<span className="text-2xl text-gray-400">/150</span></div>
+          <div className="text-sm text-gray-500 uppercase tracking-wide">本题得分</div>
+          <div className={`text-6xl font-black ${scoreColor}`}>{report.overallScore}<span className="text-2xl text-gray-400">/30</span></div>
         </div>
       </div>
 
